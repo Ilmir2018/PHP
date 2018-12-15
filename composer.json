@@ -1,0 +1,12 @@
+{
+    "name": "ilmir/galdatabase",
+    "authors": [
+        {
+            "name": "Miro2018",
+            "email": "ilmir2007@inbox.ru"
+        }
+    ],
+    "require": {
+        "twig/twig": "^2.0"
+    }
+}

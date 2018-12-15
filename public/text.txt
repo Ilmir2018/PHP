@@ -1,0 +1,52 @@
+touch('text.txt');
+
+//Подключаемся к базе данных
+$con = mysqli_connect('localhost', 'root', '', 'gallery');
+//Устанавливаем нужную кодировку.
+mysqli_set_charset($con, 'utf-8');
+//Проверяем ошибки при подключении к базе данных.
+if (mysqli_connect_error()){
+    echo 'Failed to connect to MySQL' . mysqli_connect_error();
+}
+//Делаем запрос
+$query = "SELECT * FROM news;";
+//Выполняем запрос
+$info = mysqli_query($con, $query);
+
+//Вывод количества измнённых строк.
+//echo mysqli_affected_rows($con);
+
+//Определяем количество записей полученных в результате запроса.
+$count = mysqli_num_rows($info);
+
+//Получаем эти записи
+
+if ($count){
+    while ($row = mysqli_fetch_array($info)){
+        echo $row['h1'].'<br>';
+    }
+}
+
+
+//////////////////////////////////////////////////////////////////////////
+ПО БАЗАМ ДАННЫХ
+$con = mysqli_connect('localhost', 'root', '', 'litle_shop');
+
+if ($id = $_GET['id']){  //Все выполняется только если передаётся существующий id
+    $id = (int) mysqli_real_escape_string($con, $id); //Функция для экранирования баз данных, от SQL инекций,
+    // тоесть вмешательства извне, убирает все лишние символы.
+    $sql = "SELECT * FROM litle_shop.products WHERE id = {$id}"; //Выполняемый запрос
+    if (!$res = mysqli_query($con, $sql)){ //Если запрос выполняется, внутрь не заходит.
+        var_dump(mysqli_error($con));
+    }
+    $row = mysqli_fetch_all($res, MYSQLI_ASSOC); //Функция выводит ассоциативный массив из данных,
+    // которые лежат в БД.
+    echo '<pre>';
+    var_dump($row);
+}
+?>
+
+<form action="">
+    <input type="text" name="id"/>
+    <input type="submit"/>
+</form>
